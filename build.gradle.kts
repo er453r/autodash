@@ -2,9 +2,11 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     val kotlinVersion: String by System.getProperties()
+    val kvisionVersion: String by System.getProperties()
+
     kotlin("plugin.serialization") version kotlinVersion
     kotlin("multiplatform") version kotlinVersion
-    val kvisionVersion: String by System.getProperties()
+
     id("io.kvision") version kvisionVersion
     id("org.openapi.generator") version "7.8.0"
 }
@@ -12,10 +14,10 @@ plugins {
 openApiGenerate {
     generatorName = "kotlin"
     inputSpec = "utils/api.json"
-    configOptions.putAll(mapOf(
+    configOptions = mapOf(
         "library" to "multiplatform",
         "dateLibrary" to "kotlinx-datetime",
-    ))
+    )
 }
 
 version = "1.0.0-SNAPSHOT"
@@ -23,10 +25,8 @@ group = "com.er453r"
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
-// Versions
 val kotlinVersion: String by System.getProperties()
 val kvisionVersion: String by System.getProperties()
 
@@ -55,6 +55,7 @@ kotlin {
                 }
             }
         }
+
         binaries.executable()
     }
 
@@ -72,13 +73,6 @@ kotlin {
             }
 
             kotlin.srcDir("build/generate-resources/main/src/main")
-        }
-
-        jsTest{
-            dependencies {
-                implementation(kotlin("test-js"))
-                implementation("io.kvision:kvision-testutils:$kvisionVersion")
-            }
         }
     }
 }
