@@ -1,22 +1,34 @@
 package com.er453r.autodash
 
-import io.kvision.Application
-import io.kvision.CoreModule
-import io.kvision.BootstrapModule
-import io.kvision.BootstrapCssModule
+import io.kvision.*
 import io.kvision.html.div
 import io.kvision.html.span
-import io.kvision.module
 import io.kvision.panel.root
-import io.kvision.startApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.openapitools.client.apis.UtilsControllerApi
 
 class App : Application() {
     override fun start() {
         root("kvapp") {
             div("Hello world")
             span("Hello world!")
+            span()
+        }
+
+        async {
+            println("went great, oh so great!")
+
+            val result = UtilsControllerApi().healthCheck().body().toString()
+
+            println(result)
         }
     }
+}
+
+fun async(block: suspend CoroutineScope.() -> Unit){
+    CoroutineScope(Dispatchers.Default).launch(block = block)
 }
 
 fun main() {

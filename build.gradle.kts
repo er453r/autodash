@@ -6,6 +6,16 @@ plugins {
     kotlin("multiplatform") version kotlinVersion
     val kvisionVersion: String by System.getProperties()
     id("io.kvision") version kvisionVersion
+    id("org.openapi.generator") version "7.8.0"
+}
+
+openApiGenerate {
+    generatorName = "kotlin"
+    inputSpec = "api.json"
+    configOptions.putAll(mapOf(
+        "library" to "multiplatform",
+        "dateLibrary" to "kotlinx-datetime",
+    ))
 }
 
 version = "1.0.0-SNAPSHOT"
@@ -47,12 +57,27 @@ kotlin {
         }
         binaries.executable()
     }
+
+    sourceSets["jsMain"].apply {
+        kotlin.srcDir("build/generate-resources/main/src/main",)
+    }
+
     sourceSets["jsMain"].dependencies {
         implementation("io.kvision:kvision:$kvisionVersion")
         implementation("io.kvision:kvision-bootstrap:$kvisionVersion")
+
+        implementation("io.ktor:ktor-client-js:2.3.6")
+        implementation("io.ktor:ktor-client-serialization:2.3.6")
+        implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
+        implementation("io.ktor:ktor-client-content-negotiation:2.3.6")
+        implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
     }
     sourceSets["jsTest"].dependencies {
         implementation(kotlin("test-js"))
         implementation("io.kvision:kvision-testutils:$kvisionVersion")
     }
+}
+
+tasks.named("compileKotlinJs") {
+    dependsOn(tasks.openApiGenerate)
 }
