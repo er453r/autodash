@@ -11,7 +11,7 @@ plugins {
 
 openApiGenerate {
     generatorName = "kotlin"
-    inputSpec = "api.json"
+    inputSpec = "utils/api.json"
     configOptions.putAll(mapOf(
         "library" to "multiplatform",
         "dateLibrary" to "kotlinx-datetime",
@@ -58,23 +58,28 @@ kotlin {
         binaries.executable()
     }
 
-    sourceSets["jsMain"].apply {
-        kotlin.srcDir("build/generate-resources/main/src/main",)
-    }
+    sourceSets{
+        jsMain{
+            dependencies {
+                implementation("io.kvision:kvision:$kvisionVersion")
+                implementation("io.kvision:kvision-bootstrap:$kvisionVersion")
 
-    sourceSets["jsMain"].dependencies {
-        implementation("io.kvision:kvision:$kvisionVersion")
-        implementation("io.kvision:kvision-bootstrap:$kvisionVersion")
+                implementation("io.ktor:ktor-client-js:2.3.6")
+                implementation("io.ktor:ktor-client-serialization:2.3.6")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
+                implementation("io.ktor:ktor-client-content-negotiation:2.3.6")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+            }
 
-        implementation("io.ktor:ktor-client-js:2.3.6")
-        implementation("io.ktor:ktor-client-serialization:2.3.6")
-        implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.6")
-        implementation("io.ktor:ktor-client-content-negotiation:2.3.6")
-        implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
-    }
-    sourceSets["jsTest"].dependencies {
-        implementation(kotlin("test-js"))
-        implementation("io.kvision:kvision-testutils:$kvisionVersion")
+            kotlin.srcDir("build/generate-resources/main/src/main")
+        }
+
+        jsTest{
+            dependencies {
+                implementation(kotlin("test-js"))
+                implementation("io.kvision:kvision-testutils:$kvisionVersion")
+            }
+        }
     }
 }
 
