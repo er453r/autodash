@@ -14,7 +14,10 @@ class App : Application() {
         root("kvapp") {
             div("Hello world")
             span("Hello world!")
-            span()
+            span("or is it???")
+            div("Hello world")
+            div("Hello world")
+            div("Hello world")
         }
 
         async {
