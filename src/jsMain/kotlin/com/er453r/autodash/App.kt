@@ -6,8 +6,12 @@ import io.kvision.html.span
 import io.kvision.panel.root
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import org.openapitools.client.apis.PipelineControllerApi
 import org.openapitools.client.apis.UtilsControllerApi
+import org.openapitools.client.models.Pipeline
 
 class App : Application() {
     override fun start() {
@@ -26,6 +30,19 @@ class App : Application() {
             val result = UtilsControllerApi().healthCheck().body().toString()
 
             println(result)
+        }
+
+        update()
+    }
+
+    private fun update(){
+        async{
+            val list:List<Pipeline> = PipelineControllerApi().list().body()
+            println(list)
+
+            delay(1000)
+
+            update()
         }
     }
 }

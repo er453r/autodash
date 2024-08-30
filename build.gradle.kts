@@ -62,13 +62,26 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
             }
 
-            kotlin.srcDir("build/generate-resources/main/src/main")
+            kotlin.srcDir("build/generate-resources-fixed/main/src/main")
         }
     }
 }
 
 tasks.named("compileKotlinJs") {
     dependsOn(tasks.openApiGenerate)
+    dependsOn(tasks.named("replaceWordInSources"))
+}
+
+tasks.register<Copy>("replaceWordInSources") {
+    dependsOn(tasks.openApiGenerate)
+
+    from("build/generate-resources") {
+        include("**/*.kt")            // include all Kotlin files
+        filter { line ->
+            line.replace("`data`: kotlin.String,", "`data`: kotlinx.serialization.json.JsonObject,")
+        }
+    }
+    into("build/generate-resources-fixed")
 }
 
 fun isNonStable(version: String): Boolean {
