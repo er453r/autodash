@@ -1,22 +1,18 @@
 package com.er453r.autodash
 
-import com.er453r.autodash.utils.Logger
 import com.er453r.autodash.utils.init
 import com.er453r.autodash.utils.logger
 import io.kvision.*
 import io.kvision.html.div
 import io.kvision.html.span
 import io.kvision.panel.root
-import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import org.openapitools.client.apis.PipelineControllerApi
 import org.openapitools.client.apis.UtilsControllerApi
 import org.openapitools.client.models.Pipeline
-import kotlin.math.log
 
 class App : Application() {
     override fun start() {
@@ -37,15 +33,16 @@ class App : Application() {
 
         logger.init()
 
-        logger.info("This is test")
-
+        logger.info("This is an info test")
+        logger.warn("This is a warning test")
+        logger.error("This is an error test")
 
         update()
     }
 
-    private fun update(){
-        async{
-            val list:List<Pipeline> = PipelineControllerApi().list().body()
+    private fun update() {
+        async {
+            val list: List<Pipeline> = PipelineControllerApi().list().body()
             println(list)
 
             delay(1000)
@@ -55,7 +52,7 @@ class App : Application() {
     }
 }
 
-fun async(block: suspend CoroutineScope.() -> Unit){
+fun async(block: suspend CoroutineScope.() -> Unit) {
     CoroutineScope(Dispatchers.Default).launch(block = block)
 }
 
