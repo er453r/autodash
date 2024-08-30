@@ -1,9 +1,13 @@
 package com.er453r.autodash
 
+import com.er453r.autodash.utils.Logger
+import com.er453r.autodash.utils.init
+import com.er453r.autodash.utils.logger
 import io.kvision.*
 import io.kvision.html.div
 import io.kvision.html.span
 import io.kvision.panel.root
+import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,6 +16,7 @@ import kotlinx.serialization.json.Json
 import org.openapitools.client.apis.PipelineControllerApi
 import org.openapitools.client.apis.UtilsControllerApi
 import org.openapitools.client.models.Pipeline
+import kotlin.math.log
 
 class App : Application() {
     override fun start() {
@@ -19,8 +24,6 @@ class App : Application() {
             div("Hello world")
             span("Hello world!")
             span("or is it???")
-            div("Hello world")
-            div("Hello world")
             div("Hello world")
         }
 
@@ -31,6 +34,11 @@ class App : Application() {
 
             println(result)
         }
+
+        logger.init()
+
+        logger.info("This is test")
+
 
         update()
     }
