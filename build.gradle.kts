@@ -54,6 +54,8 @@ kotlin {
             dependencies {
                 implementation("io.kvision:kvision:$kvisionVersion")
                 implementation("io.kvision:kvision-bootstrap:$kvisionVersion")
+                implementation("io.kvision:kvision-state:$kvisionVersion")
+                implementation("io.kvision:kvision-routing-navigo-ng:$kvisionVersion")
 
                 implementation("io.ktor:ktor-client-js:$ktorVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
