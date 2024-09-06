@@ -9,6 +9,9 @@ external class Logger {
 
     @JsName("ktjsloggererror")
     fun error(message: String)
+
+    @JsName("ktjsloggerenabled")
+    var enabled: Boolean
 }
 
 @JsName("window")
@@ -16,7 +19,35 @@ external val logger: Logger
 
 @Suppress("UnusedReceiverParameter")
 fun Logger.init() {
-    js("window.ktjsloggerinfo = window.console.log.bind(window.console, '%c%s%c  [INFO] %c%s', 'color:dimgrey;', new Date().toISOString(), 'color:initial;', 'color:initial;')")
-    js("window.ktjsloggerwarn = window.console.log.bind(window.console, '%c%s%c  [WARN] %c%s', 'color:dimgrey;', new Date().toISOString(), 'color:gold;', 'color:initial;')")
-    js("window.ktjsloggererror = window.console.log.bind(window.console, '%c%s%c [ERROR] %c%s', 'color:dimgrey;', new Date().toISOString(), 'color:lightcoral;', 'color:initial;')")
+    js("window.ktjsloggerenabled = true")
+
+    js(
+        """
+    Object.defineProperty(window, "ktjsloggerinfo", {
+        get: function () {
+            return ktjsloggerenabled ? console.log.bind(window.console, '%c%s%c  [INFO] %c%s', 'color:dimgrey;', new Date().toISOString(), 'color:initial;', 'color:initial;') : function(){}
+        }
+    })
+"""
+    )
+
+    js(
+        """
+    Object.defineProperty(window, "ktjsloggerwarn", {
+        get: function () {
+            return ktjsloggerenabled ? console.log.bind(window.console, '%c%s%c  [WARN] %c%s', 'color:dimgrey;', new Date().toISOString(), 'color:gold;', 'color:initial;') : function(){}
+        }
+    })
+"""
+    )
+
+    js(
+        """
+    Object.defineProperty(window, "ktjsloggererror", {
+        get: function () {
+            return ktjsloggerenabled ? console.log.bind(window.console, '%c%s%c [ERROR] %c%s', 'color:dimgrey;', new Date().toISOString(), 'color:lightcoral;', 'color:initial;') : function(){}
+        }
+    })
+"""
+    )
 }
