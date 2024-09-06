@@ -188,11 +188,15 @@
       "Process": {
         "required": [
           "env",
-          "lines",
-          "result"
+          "id",
+          "lines"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "result": {
             "type": "integer",
             "format": "int32"

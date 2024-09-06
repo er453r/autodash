@@ -63,6 +63,7 @@ class PipelineView : SimplePanel() {
             routing.navigate("/pipelines/${it.id}")
 
             pipelineId = it.id
+            pipeline.value = null
         }
 
         update()
