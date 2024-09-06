@@ -1,1 +1,255 @@
-{"openapi":"3.0.1","info":{"title":"AUTO API","description":"AUTO API","version":"v1"},"servers":[{"url":"http://localhost:8080","description":"Generated server url"}],"paths":{"/webhooks/{name}":{"post":{"tags":["webhook-controller"],"operationId":"handleNotification","parameters":[{"name":"name","in":"path","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"string"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/utils/healthcheck":{"get":{"tags":["utils-controller"],"operationId":"healthCheck","responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","additionalProperties":{"type":"string"}}}}}}}},"/pipelines":{"get":{"tags":["pipeline-controller"],"operationId":"list","responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/Pipeline"}}}}}}}}},"components":{"schemas":{"JsonNode":{"type":"object"},"Line":{"required":["isError","line","time"],"type":"object","properties":{"line":{"type":"string"},"isError":{"type":"boolean"},"time":{"type":"string","format":"date-time"}}},"Pipeline":{"required":["data","log","name"],"type":"object","properties":{"id":{"type":"string","format":"uuid"},"createdDate":{"type":"string","format":"date-time"},"lastModifiedDate":{"type":"string","format":"date-time"},"name":{"type":"string"},"data":{"$ref":"#/components/schemas/JsonNode"},"log":{"type":"array","items":{"$ref":"#/components/schemas/Process"}},"queueItem":{"$ref":"#/components/schemas/QueueItem"}}},"Process":{"required":["env","lines","result"],"type":"object","properties":{"result":{"type":"integer","format":"int32"},"lines":{"type":"array","items":{"$ref":"#/components/schemas/Line"}},"env":{"type":"object","additionalProperties":{"type":"string"}}}},"QueueItem":{"required":["data","queue","status"],"type":"object","properties":{"id":{"type":"string","format":"uuid"},"createdDate":{"type":"string","format":"date-time"},"lastModifiedDate":{"type":"string","format":"date-time"},"queue":{"type":"string"},"data":{"$ref":"#/components/schemas/JsonNode"},"details":{"type":"string"},"status":{"type":"string","enum":["PENDING","ERROR","DONE"]}}}}}}
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AUTO API",
+    "description": "AUTO API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/webhooks/{name}": {
+      "post": {
+        "tags": [
+          "webhook-controller"
+        ],
+        "operationId": "handleNotification",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/utils/healthcheck": {
+      "get": {
+        "tags": [
+          "utils-controller"
+        ],
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pipelines": {
+      "get": {
+        "tags": [
+          "pipeline-controller"
+        ],
+        "operationId": "list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pipeline"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pipelines/{id}": {
+      "get": {
+        "tags": [
+          "pipeline-controller"
+        ],
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pipeline"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JsonNode": {
+        "type": "object"
+      },
+      "Line": {
+        "required": [
+          "isError",
+          "line",
+          "time"
+        ],
+        "type": "object",
+        "properties": {
+          "line": {
+            "type": "string"
+          },
+          "isError": {
+            "type": "boolean"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Pipeline": {
+        "required": [
+          "data",
+          "log",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "log": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Process"
+            }
+          },
+          "queueItem": {
+            "$ref": "#/components/schemas/QueueItem"
+          }
+        }
+      },
+      "Process": {
+        "required": [
+          "env",
+          "lines",
+          "result"
+        ],
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Line"
+            }
+          },
+          "env": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "QueueItem": {
+        "required": [
+          "data",
+          "queue",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "queue": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/JsonNode"
+          },
+          "details": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ERROR",
+              "DONE"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
