@@ -1,4 +1,4 @@
-package com.entrhal.iqm.webapp.views
+package com.er453r.autodash.views
 
 import io.kvision.html.div
 import io.kvision.panel.SimplePanel

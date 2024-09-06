@@ -244,6 +244,7 @@
             "type": "string",
             "enum": [
               "PENDING",
+              "PROCESSING",
               "ERROR",
               "DONE"
             ]
