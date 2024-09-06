@@ -11,6 +11,7 @@ import io.kvision.html.p
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
+import kotlinx.browser.document
 import kotlinx.coroutines.delay
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -33,7 +34,7 @@ class PipelineView : SimplePanel() {
                 +"Pipeline log:"
             }
 
-            div {
+            div(className = "log") {
                 it?.log?.forEach {
                     it.lines.forEach{ line ->
                         p {
@@ -55,6 +56,8 @@ class PipelineView : SimplePanel() {
 
                 +json.encodeToString(it)
             }
+
+//            document.querySelector(".log p:last-child")?.scrollIntoView(false)
         }
 
         on<PipelineClicked> {

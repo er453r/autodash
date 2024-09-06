@@ -6,6 +6,7 @@ import io.kvision.utils.px
 import io.kvision.utils.vh
 
 class Styles {
+    @Suppress("UNUSED")
     val bodyStyle = style("body") {
         background = Background(color = Color.hex(0xfff0f0))
     }
@@ -47,6 +48,7 @@ class Styles {
         color = Color.name(Col.WHITE)
         margin = 0.px
         padding = 0.px
+        setStyle("scroll-margin-bottom", "40vh")
     }
 
     val codeLineHover = style(pClass = PClass.HOVER) {
