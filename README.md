@@ -8,5 +8,5 @@ To check for dependencies run
 
 ## Credits
 
-M
+Marcin
 
